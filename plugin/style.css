@@ -650,11 +650,11 @@
 }
 
 .okcp-poly::before {
-  content: "P";
+  content: "Non-Poly";
 }
 
 .okcp-to-message::before {
-  content: "M";
+  content: "Msg";
 }
 
 .okcp-maybe::before {
