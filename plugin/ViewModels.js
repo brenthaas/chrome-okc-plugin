@@ -72,42 +72,42 @@
               _OKCP.profileName +
               "'] ? profileList()['" +
               _OKCP.profileName +
-              "'].ip == true : false}\">Poly</a>"
+              "'].poly == true : false}\">Poly</a>"
           ),
           $("<li>").append(
             '<a class="okcp-btn hide-btn poly-hide-btn" data-bind="click: toggleHideNotPoly, css: { checked: profileListData()[\'' +
               _OKCP.profileName +
               "'] ? profileList()['" +
               _OKCP.profileName +
-              "'].p == true : false}\">Not Poly</a>"
+              "'].non_poly == true : false}\">Not Poly</a>"
           ),
           $("<li>").append(
             '<a class="okcp-btn" data-bind="click: toggleWantToMessage, css: { checked: profileListData()[\'' +
               _OKCP.profileName +
               "'] ? profileList()['" +
               _OKCP.profileName +
-              "'].wm == true : false}\">Message</a>"
+              "'].to_message == true : false}\">Message</a>"
           ),
           $("<li>").append(
             '<a class="okcp-btn" data-bind="click: toggleMaybeInterested, css: { checked: profileListData()[\'' +
               _OKCP.profileName +
               "'] ? profileList()['" +
               _OKCP.profileName +
-              "'].m == true : false}\">Maybe</a>"
+              "'].maybe == true : false}\">Maybe</a>"
           ),
           $("<li>").append(
             '<a class="okcp-btn hide-btn uninterested-hide-btn" data-bind="click: toggleHideUninterested, css: { checked: profileListData()[\'' +
               _OKCP.profileName +
               "'] ? profileList()['" +
               _OKCP.profileName +
-              "'].u == true : false}\">Not For Me</a>"
+              "'].uninterested == true : false}\">Not For Me</a>"
           ),
           $("<li>").append(
             '<a class="okcp-btn hide-btn nodata-hide-btn" data-bind="click: toggleHideNoData, css: { checked: profileListData()[\'' +
               _OKCP.profileName +
               "'] ? profileList()['" +
               _OKCP.profileName +
-              "'].d == true : false}\">N/A</a>"
+              "'].no_info == true : false}\">N/A</a>"
           )
         )
       )
@@ -206,61 +206,69 @@ function OKCP() {
   this.calculateHiddenProfile = function() {
     this.alertLocalStorageChange();
     this.profileHidden(
-      this.profileList()[_OKCP.profileName].p ||
-        this.profileList()[_OKCP.profileName].u ||
-        this.profileList()[_OKCP.profileName].d
+      this.profileList()[_OKCP.profileName].non_poly ||
+        this.profileList()[_OKCP.profileName].uninterested ||
+        this.profileList()[_OKCP.profileName].no_info
     );
-    this.profileShown(this.profileList()[_OKCP.profileName].wm);
-    this.profileList("h", this.profileHidden() && !this.profileShown()); //update storage
+    this.profileShown(this.profileList()[_OKCP.profileName].to_message);
+    this.profileList("hidden", this.profileHidden() && !this.profileShown()); //update storage
     this.alertLocalStorageChange(); //needs to be run twice, before the change, and also after
-    this.profileList("lm", Math.round(new Date().getTime() / 1000)); //update last modified time
-    this.profileList("lv", Math.round(new Date().getTime() / 1000)); //update last viewed time
+    this.profileList("last_modified", Math.round(new Date().getTime() / 1000)); //update last modified time
+    this.profileList("last_viewed", Math.round(new Date().getTime() / 1000)); //update last viewed time
   };
 
-  this.profileList("lv", Math.round(new Date().getTime() / 1000)); //update last viewed time
+  this.profileList("last_viewed", Math.round(new Date().getTime() / 1000)); //update last viewed time
   this.profileList("location", $("#ajax_location").text());
 
   this.toggleHideNotPoly = function(data) {
     console.log("toggleHideNotPoly run");
-    var originalValue = this.profileList()[_OKCP.profileName].p;
-    var oppositeValue = this.profileList()[_OKCP.profileName].ip;
-    this.profileList("p", !originalValue); //update storage
+    var originalValue = this.profileList()[_OKCP.profileName].non_poly;
+    var oppositeValue = this.profileList()[_OKCP.profileName].poly;
+    this.profileList("non_poly", !originalValue); //update storage
     console.log(originalValue, oppositeValue);
-    if (!originalValue && oppositeValue) this.profileList("ip", originalValue); //update storage
+    if (!originalValue && oppositeValue)
+      this.profileList("poly", originalValue); //update storage
     this.calculateHiddenProfile();
   };
 
   this.toggleHideUninterested = function(data) {
     console.log("toggleHideUninterested run");
-    this.profileList("u", !this.profileList()[_OKCP.profileName].u); //update storage
+    this.profileList(
+      "uninterested",
+      !this.profileList()[_OKCP.profileName].uninterested
+    ); //update storage
     this.calculateHiddenProfile();
   };
 
   this.toggleHideNoData = function(data) {
     console.log("toggleHideNoData run");
-    this.profileList("d", !this.profileList()[_OKCP.profileName].d); //update storage
+    this.profileList("no_info", !this.profileList()[_OKCP.profileName].no_info); //update storage
     this.calculateHiddenProfile();
   };
 
   this.toggleIsPoly = function(data) {
     console.log("toggleIsPoly run");
-    var originalValue = this.profileList()[_OKCP.profileName].ip;
-    var oppositeValue = this.profileList()[_OKCP.profileName].p;
-    this.profileList("ip", !originalValue); //update storage
+    var originalValue = this.profileList()[_OKCP.profileName].poly;
+    var oppositeValue = this.profileList()[_OKCP.profileName].non_poly;
+    this.profileList("poly", !originalValue); //update storage
     console.log(originalValue, oppositeValue);
-    if (!originalValue && oppositeValue) this.profileList("p", originalValue); //update storage
+    if (!originalValue && oppositeValue)
+      this.profileList("non_poly", originalValue); //update storage
     this.calculateHiddenProfile();
   };
 
   this.toggleWantToMessage = function(data) {
     console.log("toggleWantToMessage run");
-    this.profileList("wm", !this.profileList()[_OKCP.profileName].wm); //update storage
+    this.profileList(
+      "to_message",
+      !this.profileList()[_OKCP.profileName].to_message
+    ); //update storage
     this.calculateHiddenProfile();
   };
 
   this.toggleMaybeInterested = function(data) {
     console.log("toggleMaybeInterested run");
-    this.profileList("m", !this.profileList()[_OKCP.profileName].m); //update storage
+    this.profileList("maybe", !this.profileList()[_OKCP.profileName].maybe); //update storage
     this.calculateHiddenProfile();
   };
 
@@ -325,27 +333,27 @@ function applyBindingsToProfileThumb(
       thumbName +
       '"] ? profileList()["' +
       thumbName +
-      '"].h == true : false,' +
+      '"].hidden == true : false,' +
       '"okcp-no-answers": profileListData()["' +
       thumbName +
       '"] ? profileList()["' +
       thumbName +
-      '"].d == true : false,' +
+      '"].no_info == true : false,' +
       '"okcp-maybe": profileListData()["' +
       thumbName +
       '"] ? profileList()["' +
       thumbName +
-      '"].m == true : false,' +
+      '"].maybe == true : false,' +
       '"okcp-poly": profileListData()["' +
       thumbName +
       '"] ? profileList()["' +
       thumbName +
-      '"].ip == true : false,' +
+      '"].poly == true : false,' +
       '"okcp-to-message": profileListData()["' +
       thumbName +
       '"] ? profileList()["' +
       thumbName +
-      '"].wm == true : false,' +
+      '"].to_message == true : false,' +
       '"thumbImg": !!this.thumbImg' +
       "}";
     if (largeThumbnailHoverEnabled) {
@@ -523,7 +531,7 @@ function __generate_okcp_pagetab_event(e, t, e2) {
       _OKCP.profileName +
       "'] ? profileList()['" +
       _OKCP.profileName +
-      "'].wm == true : false}",
+      "'].to_message == true : false}",
     text: t
   });
 }
