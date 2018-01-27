@@ -185,7 +185,7 @@ _OKCP.getAnswers = function(list) {
         /*//on the first page load, get meta info (number of questions in common)
 				if (questionPageNum === 1) {
 					$('<div id="page-results-meta"></div>').appendTo(pageResultsDiv).load(questionPath + ' .stats.lined', function() {
-						var questionsInCommon = $('.comparison>p:first-child').text().split(' of ')[0];//$(this).find('.stats.lined li:nth-child(5) .large').text().split(' questions')[0];
+						var questionsInCommon = $('.comparison>non_poly:first-child').text().split(' of ')[0];//$(this).find('.stats.lined li:nth-child(5) .large').text().split(' questions')[0];
 						var questionsInCommonAmountClass = "";
 						if (questionsInCommon > 100) {
 							questionsInCommonAmountClass = 'questions-in-common-many';

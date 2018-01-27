@@ -22,8 +22,8 @@ _OKCP.showUnansweredQuestions = function(data) {
 				var iFrameContent = $(this.contentDocument);
 				var questionStuff = iFrameContent.find('#new_question');
 
-				if (iFrameContent.find(".notice p:not(.btn)").text().indexOf('already answered this question') !== -1 ||
-						iFrameContent.find(".notice.pink p:eq(1)").not(':hidden').size() > 0 ||
+				if (iFrameContent.find(".notice non_poly:not(.btn)").text().indexOf('already answered this question') !== -1 ||
+						iFrameContent.find(".notice.pink non_poly:eq(1)").not(':hidden').size() > 0 ||
 						iFrameContent.find('#new_question > .question').hasClass('disabled')) {
 					$(this).remove();
 					addiFrame();

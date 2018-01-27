@@ -4,32 +4,32 @@ _OKCP.reviewProfiles = function() {
 
   // although accessing objects is slower, I'm choosing to use this method because it makes the code so pretty!
   var profilesCategorized = {
-    ip: {}, //is poly
-    p: {}, //is not poly
-    wm: {}, //want to message
-    m: {}, //maybe
-    u: {}, //not for me
-    d: {} //no answers
+    poly: {}, //is poly
+    non_poly: {}, //is not poly
+    to_message: {}, //want to message
+    maybe: {}, //maybe
+    uninterested: {}, //not for me
+    no_info: {} //no answers
   };
   var profileShortcuts = {
-    ip: "Poly",
-    wm: "To Message",
-    m: "Maybe",
-    p: "Not Poly",
-    u: "Not For Me",
-    d: "No Answers"
+    poly: "Poly",
+    to_message: "To Message",
+    maybe: "Maybe",
+    non_poly: "Not Poly",
+    uninterested: "Not For Me",
+    no_info: "No Answers"
   };
 
   for (var profile in profiles) {
     var profileObj = profiles[profile];
     for (var key in profileObj) {
       if (
-        key === "ip" ||
-        key === "p" ||
-        key === "wm" ||
-        key === "m" ||
-        key === "u" ||
-        key === "d"
+        key === "poly" ||
+        key === "non_poly" ||
+        key === "to_message" ||
+        key === "maybe" ||
+        key === "uninterested" ||
+        key === "no_info"
       )
         if (profileObj[key])
           //if key is set to true
@@ -48,7 +48,8 @@ _OKCP.reviewProfiles = function() {
       .click(hideProfileReviewer);
     var bigList = $(".rp-list");
     for (var key in profilesCategorized) {
-      if (key === "p" || key === "u" || key === "d") continue; //probably nobody cares about non-poly, not for me, or no answers profiles
+      if (key === "non_poly" || key === "uninterested" || key === "no_info")
+        continue; //probably nobody cares about non-poly, not for me, or no answers profiles
       var readableKey = profileShortcuts[key];
       var item = $(
         '<li class="rp-list-item"><h2>' + readableKey + "</h2></li>"

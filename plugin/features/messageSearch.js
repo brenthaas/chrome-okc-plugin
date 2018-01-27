@@ -61,11 +61,11 @@ _OKCP.addMessageLinkUI = function() {
   for (var i = 0; i < messages.length; i++) {
     if (messages[i].uninterested === $("#basic_info_sn").text()) {
       var message = messages[i];
-      var date = new Date(message.dunno);
+      var date = new Date(message.date);
       var readableDate =
         date.getMonth() + 1 + "/" + date.getDay() + "/" + date.getFullYear();
 
-      messageLinkUI.attr("href", message.l);
+      messageLinkUI.attr("href", message.link);
       messageLinkUI.show();
     }
   }
@@ -114,9 +114,9 @@ _OKCP.indexMessages = function(elem, iframeWindow) {
       var username = this.querySelector(".subject").innerText;
       username = username.split(" ").pop();
       var thread = {
-        u: username, //username
-        l: this.querySelector(".open").href, //link
-        d: Math.round(
+        username: username, //username
+        link: this.querySelector(".open").href, //link
+        date: Math.round(
           this.querySelector(".fancydate").id.split("fancydate_")[1] / 1000
         ) //date
       }; //make a thread object
